@@ -1,7 +1,18 @@
 const request = require('supertest');
 const app = require('./index');
+const fs = require('fs');
+const path = require('path');
+
+const DATA_FILE = path.join(__dirname, 'data', 'todos.enc');
+const KEY_FILE = path.join(__dirname, 'data', '.key');
 
 describe('Todo API', () => {
+  beforeEach(() => {
+    if (fs.existsSync(DATA_FILE)) {
+      fs.unlinkSync(DATA_FILE);
+    }
+  });
+
   describe('GET /', () => {
     it('should return API status', async () => {
       const res = await request(app).get('/');
@@ -20,9 +31,14 @@ describe('Todo API', () => {
 
   describe('GET /todos/:id', () => {
     it('should return a single todo', async () => {
-      const res = await request(app).get('/todos/1');
+      const createRes = await request(app)
+        .post('/todos')
+        .send({ title: 'Test todo' });
+      const todoId = createRes.body.id;
+
+      const res = await request(app).get(`/todos/${todoId}`);
       expect(res.status).toBe(200);
-      expect(res.body.id).toBe(1);
+      expect(res.body.id).toBe(todoId);
     });
 
     it('should return 404 for non-existent todo', async () => {
@@ -51,8 +67,13 @@ describe('Todo API', () => {
 
   describe('PUT /todos/:id', () => {
     it('should update a todo', async () => {
+      const createRes = await request(app)
+        .post('/todos')
+        .send({ title: 'Original todo' });
+      const todoId = createRes.body.id;
+
       const res = await request(app)
-        .put('/todos/1')
+        .put(`/todos/${todoId}`)
         .send({ title: 'Updated todo', completed: true });
       expect(res.status).toBe(200);
       expect(res.body.title).toBe('Updated todo');
