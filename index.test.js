@@ -13,9 +13,9 @@ describe('Todo API', () => {
     }
   });
 
-  describe('GET /', () => {
+  describe('GET /api/status', () => {
     it('should return API status', async () => {
-      const res = await request(app).get('/');
+      const res = await request(app).get('/api/status');
       expect(res.status).toBe(200);
       expect(res.body.message).toBe('Todo API is running');
     });

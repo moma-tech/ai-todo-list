@@ -11,10 +11,10 @@ const { TodoController } = require('../controllers/TodoController');
 const router = express.Router();
 
 /**
- * GET / - Health check endpoint
+ * GET /api/status - Health check endpoint
  * @returns {Object} API status message
  */
-router.get('/', TodoController.healthCheck);
+router.get('/api/status', TodoController.healthCheck);
 
 /**
  * GET /todos - Retrieve all todos
