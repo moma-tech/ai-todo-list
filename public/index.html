@@ -16,6 +16,7 @@
       <section class="add-todo">
         <form id="todo-form">
           <input type="text" id="todo-input" placeholder="Add a new todo..." required>
+          <input type="date" id="date-input" title="Scheduled date">
           <button type="submit" class="btn btn-primary">Add</button>
         </form>
       </section>
@@ -39,6 +40,7 @@
         <form id="edit-form">
           <input type="hidden" id="edit-id">
           <input type="text" id="edit-title" required>
+          <input type="date" id="edit-date">
           <label class="checkbox-label">
             <input type="checkbox" id="edit-completed">
             Completed

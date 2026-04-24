@@ -12,6 +12,8 @@ const { encrypt, decryptJSON } = require('../utils/encryption');
  * @property {number} id - Unique identifier for the todo item
  * @property {string} title - The title/description of the todo
  * @property {boolean} completed - Whether the todo is completed
+ * @property {string} scheduledDate - Scheduled date in yyyy/MM/dd format
+ * @property {string} createdAt - ISO timestamp when created
  */
 
 /**
@@ -78,11 +80,16 @@ function getNextId() {
  */
 class TodoRepository {
   /**
-   * Get all todo items
-   * @returns {Todo[]} Array of all todo items
+   * Get all todo items sorted by scheduled date (closest first)
+   * @returns {Todo[]} Array of all todo items sorted by scheduled date
    */
   static findAll() {
-    return [...loadTodos()];
+    const allTodos = [...loadTodos()];
+    return allTodos.sort((a, b) => {
+      const dateA = new Date(a.scheduledDate.replace(/\//g, '-'));
+      const dateB = new Date(b.scheduledDate.replace(/\//g, '-'));
+      return dateA - dateB;
+    });
   }
 
   /**
@@ -97,11 +104,15 @@ class TodoRepository {
   /**
    * Save a new todo item
    * @param {Todo} todo - The todo to save
-   * @returns {Todo} The saved todo with generated ID
+   * @returns {Todo} The saved todo with generated ID and timestamps
    */
   static save(todo) {
     loadTodos();
-    const newTodo = { ...todo, id: getNextId() };
+    const newTodo = {
+      ...todo,
+      id: getNextId(),
+      createdAt: new Date().toISOString()
+    };
     todos.push(newTodo);
     saveTodos();
     return newTodo;

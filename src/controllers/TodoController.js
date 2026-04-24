@@ -52,11 +52,12 @@ class TodoController {
    * Create new todo handler
    * @param {import('express').Request} req - Express request
    * @param {string} req.body.title - Todo title from request body
+   * @param {string} [req.body.scheduledDate] - Scheduled date in yyyy/MM/dd format
    * @param {import('express').Response} res - Express response
    */
   static async createTodo(req, res) {
-    const { title } = req.body;
-    const result = await TodoService.createTodo(title);
+    const { title, scheduledDate } = req.body;
+    const result = await TodoService.createTodo(title, scheduledDate);
 
     if (!result.success) {
       return res.status(400).json({ error: result.error });

@@ -38,15 +38,31 @@ header h1 {
 #todo-form {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 #todo-input {
   flex: 1;
+  min-width: 200px;
   padding: 12px 16px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s;
+}
+
+#date-input {
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+#date-input:focus {
+  outline: none;
+  border-color: #667eea;
 }
 
 #todo-input:focus {
@@ -157,6 +173,33 @@ header h1 {
   font-size: 16px;
 }
 
+.todo-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.todo-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.todo-date.overdue {
+  color: #ff4757;
+  font-weight: bold;
+}
+
+.todo-date.today {
+  color: #ffa502;
+  font-weight: bold;
+}
+
+.todo-created {
+  font-size: 11px;
+  color: #aaa;
+}
+
 .todo-actions {
   display: flex;
   gap: 8px;
@@ -224,6 +267,19 @@ header h1 {
 }
 
 .modal-content input[type="text"]:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.modal-content input[type="date"] {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal-content input[type="date"]:focus {
   outline: none;
   border-color: #667eea;
 }

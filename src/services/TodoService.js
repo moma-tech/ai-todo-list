@@ -33,10 +33,11 @@ class TodoService {
   /**
    * Create a new todo
    * @param {string} title - The todo title
+   * @param {string} [scheduledDate] - Scheduled date in yyyy/MM/dd format
    * @returns {Promise<{success: boolean, todo?: Object, error?: string}>}
    */
-  static async createTodo(title) {
-    return createTodoCommand(title);
+  static async createTodo(title, scheduledDate) {
+    return createTodoCommand(title, scheduledDate);
   }
 
   /**
